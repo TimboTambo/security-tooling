@@ -21,8 +21,9 @@ jobs:
       - name: Install modules
         run: yarn install --frozen-lockfile
 
-      - name: trufflehog-actions-scan
-        uses: edplato/trufflehog-actions-scan@master
+      - uses: UnicornGlobal/trufflehog-actions-scan@master
+        with:
+          branch: ${{ github.head_ref }}
 
       - name: Build solution
         run: yarn build
@@ -34,6 +35,8 @@ jobs:
         uses: anchore/scan-action@v2
         with:
           image: "security-tools:latest"
+          fail-build: true
+          severity-cutoff: "critical"
 
       - name: Test with Checkov
         id: checkov
