@@ -21,6 +21,9 @@ jobs:
       - name: Install modules
         run: yarn install --frozen-lockfile
 
+      - name: trufflehog-actions-scan
+        uses: edplato/trufflehog-actions-scan@master
+
       - name: Test with Checkov
         id: checkov
         uses: bridgecrewio/checkov-action@master
@@ -40,6 +43,6 @@ jobs:
 
       - name: Run eslint
         run: yarn lint
-        
+
       - name: Audit
         run: yarn audit
