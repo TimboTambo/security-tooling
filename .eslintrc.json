@@ -5,6 +5,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:react/recommended", 
     "plugin:security/recommended",
     // Uncomment the following lines to enable eslint-config-prettier

@@ -21,11 +21,15 @@ jobs:
       - name: Install modules
         run: yarn install --frozen-lockfile
 
+      - name: Test with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./infrastructure
+          framework: terraform 
+
       - name: Run tests with coverage
         run: yarn test
-
-      - name: Audit
-        run: yarn audit
 
       - name: Run Insider
         uses: insidersec/insider-action@v0
@@ -34,3 +38,8 @@ jobs:
             technology: javascript
             target: ./src
 
+      - name: Run eslint
+        run: yarn lint
+        
+      - name: Audit
+        run: yarn audit
