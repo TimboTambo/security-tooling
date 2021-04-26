@@ -1,12 +1,5 @@
 FROM node:alpine as BUILD_IMAGE
 
-WORKDIR /
-
-COPY . .
-
-# build
-RUN yarn build
-
 # copy from build image
 COPY ./package.json ./package.json
 COPY ./node_modules ./node_modules
