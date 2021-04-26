@@ -28,5 +28,5 @@ jobs:
         uses: insidersec/insider-action@v0
         with:
             technology: javascript
-            target: ./
+            target: ./src
 
