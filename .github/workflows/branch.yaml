@@ -24,6 +24,17 @@ jobs:
       - name: trufflehog-actions-scan
         uses: edplato/trufflehog-actions-scan@master
 
+      - name: Build solution
+        run: yarn build
+
+      - name: Build image
+        run: docker build . -t security-tools
+
+      - name: Scan image
+        uses: anchore/scan-action@v2
+        with:
+          image: "security-tools:latest"
+
       - name: Test with Checkov
         id: checkov
         uses: bridgecrewio/checkov-action@master
