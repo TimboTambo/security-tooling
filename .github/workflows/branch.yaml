@@ -24,9 +24,13 @@ jobs:
       - name: Run tests with coverage
         run: yarn test
 
+      - name: Audit
+        run: yarn audit
+
       - name: Run Insider
         uses: insidersec/insider-action@v0
         with:
+            security: 100
             technology: javascript
             target: ./src
 
