@@ -36,10 +36,10 @@ jobs:
           severity-cutoff: "critical"
 
       - name: Check for secrets with Trufflehog
-        uses: UnicornGlobal/trufflehog-actions-scan@master
         if: always()
+        uses: edplato/trufflehog-actions-scan@master
         with:
-          branch: ${{ github.head_ref }}
+          scanArguments: "--regex --entropy=False --max_depth=5 --rules /regexes.json"
 
       - name: Test infrastructure configuration with Checkov
         if: always()
