@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "security", "no-secrets", "scanjs-rules"],
+  "plugins": ["@typescript-eslint", "react", "security", "no-secrets", "scanjs-rules", "sql-injection"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -28,6 +28,7 @@
     "react/display-name": 0,
     "react/prop-types": 0,
     "no-secrets/no-secrets":"error",
+    "sql-injection/no-sql-injection": "error",
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/explicit-member-accessibility": 0,
     "@typescript-eslint/indent": 0,

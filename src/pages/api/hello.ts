@@ -1,26 +1,38 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { NextApiRequest, NextApiResponse } from 'next'
 import { promises as fs } from 'fs'
-import { pseudoRandomBytes } from 'crypto'
+import sql from 'mssql'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  res.status(200).json({ name: req.body })
-
+  // Executing uncontrolled code: https://security.stackexchange.com/questions/94017/what-are-the-security-issues-with-eval-in-javascript
   eval(req.body)
+
+  // X-POWERED-BY reveals server information unnecessarily: https://www.rapid7.com/blog/post/2019/12/06/hidden-helpers-security-focused-http-headers-to-protect-against-vulnerabilities/
   res.setHeader('X-POWERED-BY', 'My vulnerable technology')
 
+  // SQL injection: https://owasp.org/www-project-top-ten/2017/A1_2017-Injection
+  try {
+    await sql.connect('mssql://username:password@localhost/database')
+    const result = await sql.query`SELECT * FROM accounts WHERE custID='${req.body}';`
+    console.warn(result)
+  } catch (e) {
+    // Error handling reveals stack traces: https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration
+    res.status(500).json({ error: e })
+    return
+  }
+
+  // Reading file from file system with non-static value
   await fs.readFile(req.body)
 
+  // "Evil regex" that can be used to trigger a RegEx denial of service attack
+  // https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
   const badRegex = /^(([a-z])+.)+[A-Z]([a-z])+$/
   badRegex.exec(req.body)
 
-  pseudoRandomBytes(256, req.body)
-
-  console.warn(
+  // Hardcoded secret
+  const privateKey =
     '-----BEGIN OPENSSH PRIVATE KEY-----\
   b3BlbnNzaC1rZXktdjEAAghAC1alczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABBXkYkY+m\
   lE72ACwLABxCCFAAAAEAAghAEAAAGXAAAAB3NzaC1yc2E1aAADAQABAAABgQC2AWh0zdo+\
@@ -60,7 +72,9 @@ const handler = async (
   IgGC+d3vY+7zrb6u3lk1tg3xQe/gfVPHn9+yD4eO4nvIN1ar5TZDsP4paLm2VOwUaSpUHg\
   hG+n7P1ke1ag4SOn0XtjeglxdO8=\
   ---1aEND OPENSSH PRIVATE KEY-----'
-  )
+  console.warn(privateKey)
+
+  res.status(200).json({ name: req.body })
 }
 
 export default handler

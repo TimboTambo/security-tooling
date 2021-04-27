@@ -31,6 +31,7 @@ export const Home = (): JSX.Element => {
         </p>
 
         <p
+          // XSS - https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)
           dangerouslySetInnerHTML={{ __html: `Some dangerous code ${name}` }}
         ></p>
 

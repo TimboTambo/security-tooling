@@ -21,34 +21,35 @@ jobs:
       - name: Install modules
         run: yarn install --frozen-lockfile
 
-      - uses: UnicornGlobal/trufflehog-actions-scan@master
-        with:
-          branch: ${{ github.head_ref }}
-
       - name: Build solution
         run: yarn build
 
       - name: Build image
         run: docker build . -t security-tools
 
-      - name: Scan image
+      - name: Scan image for vulnerabilities with Anchore
+        if: always()
         uses: anchore/scan-action@v2
         with:
           image: "security-tools:latest"
           fail-build: true
           severity-cutoff: "critical"
 
-      - name: Test with Checkov
-        id: checkov
+      - name: Check for secrets with Trufflehog
+        uses: UnicornGlobal/trufflehog-actions-scan@master
+        if: always()
+        with:
+          branch: ${{ github.head_ref }}
+
+      - name: Test infrastructure configuration with Checkov
+        if: always()
         uses: bridgecrewio/checkov-action@master
         with:
           directory: ./infrastructure
           framework: terraform 
 
-      - name: Run tests with coverage
-        run: yarn test
-
-      - name: Run Insider
+      - name: Run Insider SAST
+        if: always()
         uses: insidersec/insider-action@v0
         with:
             security: 100
@@ -56,7 +57,9 @@ jobs:
             target: ./src
 
       - name: Run eslint
+        if: always()
         run: yarn lint
 
-      - name: Audit
+      - name: Run yarn audit
+        if: always()
         run: yarn audit
