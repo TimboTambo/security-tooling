@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "security", "no-secrets", "scanjs-rules", "sql-injection"],
+  "plugins": ["@typescript-eslint", "react", "no-secrets", "security", "scanjs-rules", "sql-injection"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -62,7 +62,6 @@
     "scanjs-rules/call_addEventListener_deviceproximity" : 1,
     "scanjs-rules/call_addEventListener_message" : 1,
     "scanjs-rules/call_connect" : 1,
-    "scanjs-rules/call_eval" : 1,
     "scanjs-rules/call_execScript" : 1,
     "scanjs-rules/call_hide" : 1,
     "scanjs-rules/call_open_remote=true" : 1,
