@@ -1,27 +1,16 @@
-# NextJS Typescript Boilerplate
+# Security tooling
+This is a mock project for testing security tooling, set up using a NextJS project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Bootstrap a developer-friendly NextJS app configured with:
+## Bugs
 
-- [Typescript](https://www.typescriptlang.org/)
-- Linting with [ESLint](https://eslint.org/)
-- Formatting with [Prettier](https://prettier.io/)
-- Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
-- Testing with [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro)
+Some "bugs" are in the [api route](./src/pages/api/hello.ts) and [index](./src/pages/index.tsx) files.
 
-## Deploy your own
+Misconfigured terraform is in the [infrastructure](./infrastructure/infra.tf) file.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+An insecure version of SSRI is installed in the [package.json](./package.json) file.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-eslint-jest&project-name=with-typescript-eslint-jest&repository-name=with-typescript-eslint-jest)
+## Tools
 
-## How to use
+CI security tools are configured to run in the [github workflow file](./.github/workflows/build-deploy.yml).
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-# or
-yarn create next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+ES-lint is configured in the [.eslintrc](./.eslintrc.json) file.
